@@ -1,0 +1,32 @@
+CREATE DATABASE LayeredArchitectureDb;
+GO
+
+USE LayeredArchitectureDb;
+GO
+
+CREATE TABLE Customers
+(
+    CustomerId INT IDENTITY(1,1) PRIMARY KEY,
+    FullName NVARCHAR(100) NOT NULL,
+    Phone NVARCHAR(20)
+);
+
+CREATE TABLE Products
+(
+    ProductId INT IDENTITY(1,1) PRIMARY KEY,
+    ProductName NVARCHAR(100) NOT NULL,
+    Price DECIMAL(18,2) NOT NULL
+);
+
+CREATE TABLE Orders
+(
+    OrderId INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL,
+    OrderDate DATETIME NOT NULL DEFAULT GETDATE(),
+
+    CONSTRAINT FK_Orders_Customers FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId),
+    CONSTRAINT FK_Orders_Products FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
+);
+GO
